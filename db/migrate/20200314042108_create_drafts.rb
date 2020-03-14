@@ -5,6 +5,6 @@ class CreateDrafts < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :drafts, :name
+    add_index :drafts, :name, unique: true
   end
 end

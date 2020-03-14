@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_03_14_042427) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_drafts_on_name"
+    t.index ["name"], name: "index_drafts_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,15 +28,15 @@ ActiveRecord::Schema.define(version: 2020_03_14_042427) do
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
   end
 
   create_table "users_drafts", id: false, force: :cascade do |t|
-    t.bigint "assembly_id"
-    t.bigint "part_id"
-    t.index ["assembly_id"], name: "index_users_drafts_on_assembly_id"
-    t.index ["part_id"], name: "index_users_drafts_on_part_id"
+    t.bigint "user_id"
+    t.bigint "draft_id"
+    t.index ["draft_id"], name: "index_users_drafts_on_draft_id"
+    t.index ["user_id"], name: "index_users_drafts_on_user_id"
   end
 
 end
