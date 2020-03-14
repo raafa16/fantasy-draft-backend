@@ -1,8 +1,23 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  resource :users, only: [:create]
-  post "/login", to: "auth#login"
-  get "/auto_login", to: "auth#auto_login"
-  get "/user_is_authed", to: "auth#user_is_authed"
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:create] do
+        resources :drafts, shallow: true do
+          resources :settings
+          resources :footballers
+        end
+      end
+
+      resources :drafts do
+        get :search, on: :collection
+      end
+
+
+      post "/login", to: "auth#login"
+      get "/auto_login", to: "auth#auto_login"
+      get "/logged_in", to: "auth#logged_in"
+    end
+  end
 end
