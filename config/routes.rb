@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:create] do
-        resources :drafts, shallow: true do
+      resources :users, only: [:create], shallow: true do
+        resources :drafts do
           resources :settings
           resources :footballers
         end

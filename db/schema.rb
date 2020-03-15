@@ -10,16 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_042427) do
+ActiveRecord::Schema.define(version: 2020_03_15_012249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "drafts", force: :cascade do |t|
     t.string "name", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_drafts_on_name", unique: true
+    t.index ["user_id"], name: "index_drafts_on_user_id"
+  end
+
+  create_table "drafts_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "draft_id", null: false
+    t.index ["draft_id", "user_id"], name: "index_drafts_users_on_draft_id_and_user_id"
+    t.index ["user_id", "draft_id"], name: "index_drafts_users_on_user_id_and_draft_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -30,13 +39,6 @@ ActiveRecord::Schema.define(version: 2020_03_14_042427) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
-  end
-
-  create_table "users_drafts", id: false, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "draft_id"
-    t.index ["draft_id"], name: "index_users_drafts_on_draft_id"
-    t.index ["user_id"], name: "index_users_drafts_on_user_id"
   end
 
 end
