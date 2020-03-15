@@ -38,6 +38,6 @@ class Api::V1::DraftsController < ApplicationController
   end
 
   def draft_params
-    params.require(:draft).permit(:name, :user )
+    params.require(:draft).permit(:name, :manager)
   end
 end
