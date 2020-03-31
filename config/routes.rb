@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  namespace :api do
+  namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :users, only: [:create], shallow: true do
-        resources :drafts do
-          resources :settings
-          resources :footballers
-        end
+      resources :drafts do
+        resources :settings
+        resources :footballers
       end
 
       resources :drafts do
@@ -15,9 +13,12 @@ Rails.application.routes.draw do
       end
 
 
-      post "/login", to: "auth#login"
-      get "/auto_login", to: "auth#auto_login"
-      get "/logged_in", to: "auth#logged_in"
+      resources :sessions, only: [:create]
+      resources :registrations, only: [:create]
+      delete :logout, to: "sessions#logout"
+      get :logged_in, to: "sessions#logged_in"
+
     end
   end
+  root to: "api/v1/static#home"
 end
