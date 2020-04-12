@@ -1,12 +1,12 @@
 class Api::V1::RegistrationsController < ApplicationController
   def create
-    @user = User.create!(
+    @user = User.new(
       name: registration_params[:name],
       email: registration_params[:email],
       password: registration_params[:password],
       password_confirmation: registration_params[:password_confirmation]
     )
-    if @user
+    if @user.save
       sign_in(@user)
       render json: @user, status: :created
     else

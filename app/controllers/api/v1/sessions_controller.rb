@@ -1,13 +1,13 @@
 class Api::V1::SessionsController < ApplicationController
   def create
-    user = User
+    @user = User
             .find_by(email: session_params[:email])
             .try(:authenticate, session_params[:password])
-    if user
-      sign_in(user)
+    if @user
+      sign_in(@user)
       render json: {
         status: :created,
-        user: user,
+        user: @user,
         logged_in: true
       }
     else
